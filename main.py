@@ -14,6 +14,7 @@ mp_draw = mp.solutions.drawing_utils
 hands = mp_hands.Hands(max_num_hands = 1)
 
 cam_input = cv.VideoCapture(0)
+screen_width, screen_height = pyag.size()
 
 p_time = 0
 n_time = 0
@@ -35,7 +36,13 @@ while run:
             
             Lx1, Ly1 = hand_landmark.landmark[mp_hands.HandLandmark.MIDDLE_FINGER_TIP].x, hand_landmark.landmark[mp_hands.HandLandmark.MIDDLE_FINGER_TIP].y
             Lx2, Ly2 = hand_landmark.landmark[mp_hands.HandLandmark.MIDDLE_FINGER_MCP].x, hand_landmark.landmark[mp_hands.HandLandmark.MIDDLE_FINGER_MCP].y
-        
+            
+            Mx1, My1 = hand_landmark.landmark[mp_hands.HandLandmark.THUMB_TIP].x, hand_landmark.landmark[mp_hands.HandLandmark.THUMB_TIP].y
+            
+            mouse_x = int(Mx1 * screen_width)
+            mouse_y = int(My1 * screen_height)
+            pyag.moveTo(mouse_x, mouse_y, duration=0.1)
+
         if(CONTROL_CHOICE == 'L'):
             if(distance(Rx1,Rx2,Ry1,Ry2)*100 <= 10):
                 pyag.rightClick()
